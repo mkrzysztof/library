@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  </head>
+  <body>
+    {% if request.session.reader_number %}
+    <b>{{ request.session.reader_number }}</b>
+    <p>
+      <a href={% url 'end-of-service' %}>Zmień czytelnika</a>
+    {% else %}
+    <form method="POST" action="{% url 'find-reader' %}">
+      {{ reader_number }}
+      {% csrf_token %}
+      <input type="submit", value='Znajdź'>
+    </form>
+    {% endif %}
+  </body>
+</html>
