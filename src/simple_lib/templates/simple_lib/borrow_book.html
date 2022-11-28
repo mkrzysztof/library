@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  </head>
+  <body>
+    <b>Numer karty czytelnika: {{ reader_number }}</b>
+    <form method="POST" action="{% url 'borrow-book' %}">
+      {{ book_number }}
+      {% csrf_token %}
+      <input type="submit", value="Wypożycz">
+    </form>
+    <a href="{% url 'hiring' %}">Powrót</a>
+    <div class="bookIsHiring">
+      {% if request.session.book_hire %}
+      <b>Książka została już wypożyczona</b>
+      {% endif %}
+    </div>
+  </body>
+</html>
