@@ -59,3 +59,25 @@ class BorrowBookView(View):
             else:
                 request.session['book_hire'] = False
         return redirect(reverse('borrow-book'))
+
+    
+class StartSiteView(View):
+    def get(self, request):
+        return render(request, 'simple_lib/start_site.html')
+
+
+
+class ReturnBookView(View):
+    """Oddanie książki niezależnie kto ją przyniósł"""
+    def get(self, request):
+        ctx = {'book_number': BookNumberForm()}
+        return render(request, 'simple_lib/return_book.html', context=ctx)
+
+    def post(self, request):
+        form = BookNumberForm(request.POST)
+        if form.is_valid():
+            book_number = form.cleaned_data['number']
+            book = Book.objects.get(pk=book_number)
+            hire = Hire.objects.filter(book=book)
+            hire.delete()
+        return redirect(reverse('return-book'))

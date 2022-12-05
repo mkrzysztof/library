@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  </head>
+  <body>
+    <b>Oddanie książki</b>
+    <form method="POST" action="{% url 'return-book' %}">
+      {{ book_number }}
+      {% csrf_token %}
+      <input type="submit", value="Oddaj">
+    </form>
+    <a href="{% url 'start-site' %}">Powrót</a>
+  </body>
+</html>
