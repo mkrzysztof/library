@@ -81,3 +81,6 @@ class ReturnBookView(View):
             hire = Hire.objects.filter(book=book)
             hire.delete()
         return redirect(reverse('return-book'))
+
+
+class HiringBookView(ListView)
