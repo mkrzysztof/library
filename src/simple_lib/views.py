@@ -83,4 +83,11 @@ class ReturnBookView(View):
         return redirect(reverse('return-book'))
 
 
-class HiringBookView(ListView)
+class HiringBookView(View):
+    def get(self, request):
+        hiring = Hire.objects.select_related('book')
+        list = {(e.reader, e.book) for e in hiring.all()}
+        ctx = {
+            'list': list,
+        }
+        return render(request, 'simple_lib/view_send.html', context=ctx)

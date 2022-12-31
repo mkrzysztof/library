@@ -16,7 +16,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from simple_lib.views import (BookListView, HireIndexView, FindReaderView,
-                              BorrowBookView, StartSiteView, ReturnBookView,)
+                              BorrowBookView, StartSiteView, ReturnBookView,
+                              HiringBookView)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -30,4 +31,6 @@ urlpatterns = [
          name='start-site'),
     path('return-book/', ReturnBookView.as_view(),
          name='return-book'),
+    path('hiring-book/', HiringBookView.as_view(),
+         name='hiring-book')
 ]

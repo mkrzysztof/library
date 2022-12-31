@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  </head>
+  <body>
+    {% for reader, book in list %}
+    <li>{{reader.first_name}} {{reader.last_name}} {{book.cat_number}}
+      {{book.title}} </li>
+    {% endfor %}
+    <a href="{% url 'start-site' %}">Powrót</a>
+  </body>
+</html>
