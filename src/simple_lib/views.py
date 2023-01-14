@@ -1,3 +1,4 @@
+import logging
 from django.db import IntegrityError
 from django.shortcuts import (render, redirect)
 from django.urls import reverse
@@ -46,19 +47,20 @@ class BorrowBookView(View):
     def post(self, request):
         form = BookNumberForm(request.POST)
         if form.is_valid():
+            borrow = {p.book.cat_number for p in Hire.objects.all()}
+            print(borrow)
             book_number = form.cleaned_data['number']
-            reader_number = request.session['reader_number']
-            book = Book.objects.get(pk=book_number)
-            reader = Reader.objects.get(pk=reader_number)
-            try:
+            if book_number not in borrow:
+                logging.info('wypożyczenie')
+                reader_number = request.session['reader_number']
+                book = Book.objects.get(pk=book_number)
+                reader = Reader.objects.get(pk=reader_number)
                 hire = Hire.objects.create(reader=reader, book=book)
                 hire.save()
-            except IntegrityError:
-                print('powtórzenie')
-                request.session['book_hire'] = True
             else:
-                request.session['book_hire'] = False
-        return redirect(reverse('borrow-book'))
+                request.session['book_hire'] = True
+                print('powtórzenie')
+        return render(request, 'simple_lib/borrow_book.html')
 
     
 class StartSiteView(View):
